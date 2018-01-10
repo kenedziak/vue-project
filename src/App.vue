@@ -5,8 +5,8 @@
       <button>
         <router-link to="/home">home</router-link>
       </button>
-      <button>
-        <router-link v-if="!user.authenticated" to="/Login">Sign In</router-link>
+      <button v-if="!user.authenticated">
+        <router-link  to="/Login">Sign In</router-link>
       </button>
     </header>
     <main>

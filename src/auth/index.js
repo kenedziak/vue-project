@@ -11,6 +11,8 @@ export default {
   },
 
   login(context, creds, redirect) {
+    let self = this;
+
     var data = new FormData()
     creds['grand_type'] = 'password';
     data.append('grant_type','password');
@@ -26,10 +28,11 @@ export default {
 
       localStorage.setItem('id_token', data.id_token)
 
-      this.user.authenticated = true
-
+      self.user.authenticated = true
+      router.go('/logged')
     },function(err){
-      context.error = err
+      context.error = "Złe dane"
+
     })
   },
 
