@@ -1,7 +1,7 @@
-import {router} from '../router/index.js'
+import router from '../router/index.js'
 
-const API_URL = 'http://localhost:3001/'
-const LOGIN_URL = API_URL + 'sessions/create/'
+const API_URL = 'https://morning-escarpment-49088.herokuapp.com'
+const LOGIN_URL = API_URL + '/oauth/token'
 const SIGNUP_URL = API_URL + 'users/'
 
 export default {
@@ -11,34 +11,28 @@ export default {
   },
 
   login(context, creds, redirect) {
-    context.$http.post(LOGIN_URL, creds, (data) => {
+    var data = new FormData()
+    creds['grand_type'] = 'password';
+    data.append('grant_type','password');
+    data.append("username",creds['username']);
+    data.append("password",creds['password']);
+    context.$http.post(LOGIN_URL, data,{
+    headers: {
+                "Authorization": "Basic " + btoa("login:haslo"),
+                "content-type": "application/x-www-form-urlencoded",
+
+    }}).then (function(data){
+
+
       localStorage.setItem('id_token', data.id_token)
 
       this.user.authenticated = true
 
-      if(redirect) {
-        router.go(redirect)
-      }
-
-    }).error((err) => {
+    },function(err){
       context.error = err
     })
   },
 
-  signup(context, creds, redirect) {
-    context.$http.post(SIGNUP_URL, creds, (data) => {
-      localStorage.setItem('id_token', data.id_token)
-
-      this.user.authenticated = true
-
-      if(redirect) {
-        router.go(redirect)
-      }
-
-    }).error((err) => {
-      context.error = err
-    })
-  },
 
   logout() {
     localStorage.removeItem('id_token')
