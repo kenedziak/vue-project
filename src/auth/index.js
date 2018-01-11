@@ -29,7 +29,7 @@ export default {
       localStorage.setItem('id_token', data.id_token)
 
       self.user.authenticated = true
-      router.go('/logged')
+    //  router.go('/logged')
     },function(err){
       context.error = "Złe dane"
 

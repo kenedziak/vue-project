@@ -5,11 +5,22 @@ import App from './App'
 import router from './router'
 
 Vue.config.productionTip = false
+import auth from './auth/index'
 
 /* eslint-disable no-new */
-new Vue({
+var myApp = new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
-})
+  components: { App },
+  methods: {
+    myLoad() {
+      auth.checkAuth();
+
+    }
+  },
+
+
+});
+
+myApp.myLoad();

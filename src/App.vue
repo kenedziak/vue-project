@@ -8,6 +8,12 @@
       <button v-if="!user.authenticated">
         <router-link  to="/Login">Sign In</router-link>
       </button>
+      <button  v-if="user.authenticated" @click="logout()">
+        Logout
+      </button>
+
+
+
     </header>
     <main>
       <router-view></router-view>
@@ -16,7 +22,7 @@
 </template>
 
 <script>
-import auth from './auth'
+import auth from './auth/index'
 export default {
   name: 'app',
    data() {
@@ -28,8 +34,9 @@ export default {
      logout() {
        auth.logout()
      }
-   }
- }
+   },
+ 
+}
 </script>
 
 <style>
