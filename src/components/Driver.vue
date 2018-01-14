@@ -14,26 +14,50 @@
  </template>
 
  <script>
- import auth from '../auth'
+ import auth from '../auth/'
 
  export default {
    name: 'driver',
+
    data() {
      return {
-       drivers: [
-         { id: 1, name: "admin", surname: "admin"},
-         { id: 2, name: "janek", surname: "nazwisko"}
-       ]
+       drivers: []
      }
    },
 
    methods: {
-
      driverDelete(id) {
-       alert("Delete driver with id " + id);
+       this.$http.delete('https://morning-escarpment-49088.herokuapp.com/driver/delete',{
+            body: {
+              "id" : id
+            },
+           headers: auth.getAuthHeader()
+         }
 
-     }
-   }
 
- }
+     )
+
+
+       .then (function (data) {
+
+            this.getDriverList();
+
+         })
+       },
+
+
+    getDriverList() {
+    this.$http.get('https://morning-escarpment-49088.herokuapp.com/driver/getAll', {
+        headers: auth.getAuthHeader()
+      }).then (function (data) {
+        this.drivers = data.body;
+      })
+      }
+
+},
+    beforeMount(){
+     this.getDriverList();
+    },
+
+}
  </script>

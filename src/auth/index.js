@@ -28,7 +28,7 @@ export default {
     }).then(function (data) {
 
 
-      localStorage.setItem('id_token', data.id_token)
+      localStorage.setItem('id_token', data.body.access_token)
 
       self.user.authenticated = true
       //  router.go('/logged')
@@ -52,6 +52,9 @@ export default {
     else {
       this.user.authenticated = false
     }
+  },
+  getAPI_URL(){
+    return this.API_URL;
   },
 
 
