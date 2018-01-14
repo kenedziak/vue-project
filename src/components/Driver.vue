@@ -2,10 +2,29 @@
   <div class = "driver">
    <div class="menu col-sm-6 col-sm-offset-4">
      <h2>Driver list</h2>
-     <li v-for="d in drivers">
-       {{ d.id }}. {{ d.name }} {{ d.surname }} <button class="btn btn-danger" @click="driverDelete(d.id)">delete</button><router-link :to="'/driver/edit/'+d.id"><button class="btn btn-warning">edit driver</button></router-link>
-     </li>
-     <br /><br /><br />
+     <table class="table table-inverse">
+       <thead>
+         <tr>
+           <th>#</th>
+           <th>Name</th>
+           <th>Surname</th>
+           <th>Username</th>
+           <th> Operations</th>
+         </tr>
+       </thead>
+       <tbody>
+         <tr v-for="d in drivers">
+           <th scope="row">3</th>
+           <td>{{ d.id }}</td>
+           <td> {{ d.name }}</td>
+           <td> {{d.surname}}</td>
+           <td>
+             <button class="btn btn-danger" @click="driverDelete(d.id)">delete</button><router-link :to="'/driver/edit/'+d.id"><button class="btn btn-warning">edit driver</button></router-link>
+           </td>
+         </tr>
+       </tbody>
+     </table>
+
      <router-link to="/driver/add">
        <button class="btn btn-primary">add driver</button>
      </router-link>
@@ -51,6 +70,7 @@
         headers: auth.getAuthHeader()
       }).then (function (data) {
         this.drivers = data.body;
+        console.log(this.drivers);
       })
       }
 

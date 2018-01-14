@@ -147,22 +147,25 @@
         }
       },
       submitForm:function(){
-        this.$http.put('https://morning-escarpment-49088.herokuapp.com/driver/create',{
-          body: JSON.stringify(this.model),
+        this.$http.put('https://morning-escarpment-49088.herokuapp.com/driver/create',
+          JSON.stringify(this.model)
+        ,{
 
             headers:
               auth.getAuthHeader(),
 
           }).then (function (data) {
 
-              return false;
+            console.log(data);
+            window.location.href = '../driver';
 
             }),function(data){
               console.log(data);
+              window.location.href = '../driver';
+
             }
 
 
-        window.location.href = '../';
       }
     }
 

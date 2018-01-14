@@ -148,9 +148,25 @@
         }
       },
       submitForm:function(){
-        alert("Hey you just submited " + JSON.stringify(this.model));
-        window.location.href = '../';
+        this.$http.put('https://morning-escarpment-49088.herokuapp.com/driver/create',{
+          body: JSON.stringify(this.model),
+        },{
+
+            headers:
+              auth.getAuthHeader(),
+
+          }).then (function (data) {
+            window.location.href = '/home';
+
+
+            }),function(data){
+              console.log(data);
+            }
+
+
+        window.location.href = '/home';
       }
+
     }
 
   }
