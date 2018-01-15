@@ -1,8 +1,8 @@
 <template>
-  <div class="driverAdd col-sm-6 col-sm-offset-3">
+  <div class="sheduleAdd col-sm-6 col-sm-offset-3">
     <div class="panel panel-default">
-      <div class="panel-heading">Add driver</div>
-      <div class="panel-body">
+      <div class="panel-heading">Add task</div>
+      <div class="panel-body" v-cloak="">
         <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
       </div>
     </div>
@@ -16,103 +16,106 @@
   import "vue-form-generator/dist/vfg.css";
 
   export default {
-    name: 'driverAdd',
+    name: 'sheduleAdd',
     components: {
       "vue-form-generator": VueFormGenerator.component
     },
     data() {
       return {
+        driverList :[],
+        carList:[],
         model: {
+          finishDate:"",
+          carId:"",
+          driverId :"",
+          status:"",
+          description:"",
+          aXcords: "",
+          aYcords: "",
+          bXcords: "",
+          bYcords: "",
           id: "",
-          name: "imiea",
-          surname: "nazwisko",
-          username: "asdas ",
-          email: "asd@gmail.com",
-          pesel: "12312312312",
-          phonenumber: "123123123",
-          isMale: true
         },
         schema: {
-          fields: [{
-            type: "input",
-            inputType: "text",
-            label: "ID",
-            model: "id",
-            readonly: true,
-            featured: false,
-            disabled: true
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "Name",
-            model: "name",
-            readonly: false,
-            featured: true,
-            required: true,
-            disabled: false,
-            min: 5,
-            max: 40,
-            placeholder: "User's name",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "Surname",
-            model: "surname",
-            readonly: false,
-            featured: true,
-            min: 5,
-            max: 40,
-            required: true,
-            disabled: false,
-            placeholder: "User's surname",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "Username",
-            model: "username",
-            readonly: false,
-            featured: true,
-            required: true,
-            disabled: false,
-            min: 5,
-            max: 40,
-            placeholder: "User's username",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "email",
-            label: "E-mail",
-            required: true,
-            model: "email",
-            placeholder: "User's e-mail address",
-            validator: VueFormGenerator.validators.email
-          }, {
+          fields: [
+
+              {
+               type: "input",
+               inputType: "Date",
+               label: "Date to finish",
+               model: "finishDate",
+               required: true,
+               validator: VueFormGenerator.validators.Date
+             },
+            {
+             type: "input",
+             inputType: "number",
+             label: "Point A x cord",
+             model: "aXcords",
+             required: true,
+             validator: VueFormGenerator.validators.number
+           },
+           {
             type: "input",
             inputType: "number",
-            label: "Pesel",
-            model: "pesel",
+            label: "Point A y cord",
+            model: "aYcords",
             required: true,
             validator: VueFormGenerator.validators.number
-          }, {
+          },
+          {
+           type: "input",
+           inputType: "number",
+           label: "Point B x cord",
+           model: "bXcords",
+           required: true,
+           validator: VueFormGenerator.validators.number
+         },
+         {
+          type: "input",
+          inputType: "number",
+          label: "Point B y cord",
+          model: "bYcords",
+          required: true,
+          validator: VueFormGenerator.validators.number
+        },
+          {
             type: "input",
-            inputType: "number",
-            label: "Phone number",
-            model: "phoneNumber",
-            validator: VueFormGenerator.validators.number
-          }, {
-            type: "switch",
-            label: "Sex",
-            model: "isMale",
-            multi: true,
+            inputType: "text",
+            label: "description",
+            model: "description",
             readonly: false,
-            featured: false,
+            featured: true,
+            required: true,
             disabled: false,
-            default: true,
-            textOn: "Male",
-            textOff: "Female"
-          }, {
+            min: 5,
+            max: 40,
+            placeholder: "Description",
+            validator: VueFormGenerator.validators.string
+          },
+          {
+            type: "select",
+            label: "Assign Driver",
+            model: "driverId",
+            required: false,
+            values: this.driverListData,
+            },
+
+            {
+              type: "select",
+              label: "Assign car",
+              model: "carId",
+              required: false,
+              values: this.carListData,
+              },
+            {
+              type: "select",
+              label: "Status",
+              model: "status",
+              required: true,
+              values: ["Do aktualizacji", "Zakończony"],
+              }
+            , {
             type: "submit",
             buttonText: "Submit",
             onSubmit: this.submitForm,
@@ -132,6 +135,14 @@
     },
 
     methods: {
+      driverListData(){
+        return this.driverList;
+
+      },
+      carListData(){
+        return this.carList;
+      },
+
       prettyJSON: function (json) {
         if (json) {
           json = JSON.stringify(json, undefined, 4);
@@ -154,7 +165,22 @@
         }
       },
       submitForm: function () {
-        this.$http.put('https://morning-escarpment-49088.herokuapp.com/driver/create', JSON.stringify(this.model), {
+        var driverId = this.model.driverId;
+        var carId = this.model.carId;
+        carId = carId[0];
+        driverId  = driverId[0];
+      this.$http.put('https://morning-escarpment-49088.herokuapp.com/task/create',{
+          endDate: this.model.finishDate,
+          driverId : driverId,
+          carId: carId,
+          status: this.model.status,
+          description: this.model.description,
+          aXcords: this.model.aXcords,
+          aYcords: this.model.aXYcords,
+          bXcords: this.model.bXcords,
+          bYcords: this.model.bYcords,
+
+        } , {
           headers: auth.getAuthHeader(),
           type:'PUT',
           contentType: 'application/json; charset=utf-8',
@@ -165,7 +191,41 @@
           console.log(data);
         };
         router.push("/Home");
-      }
+      },
+      getDriverList() {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/driver/getAll', {
+          headers: auth.getAuthHeader()
+        }).then(function (data) {
+          var driverSurnames = [];
+          var driverIds = [];
+          //var jsonData = JSON.parse(myMessage);
+          for (var i = 0; i < data.body.length; i++) {
+              var driver = data.body[i];
+              driverSurnames.push(driver.id +'. '+driver.surname);
+          }
+          this.driverList = driverSurnames;
+        })
+      },
+      getCarList() {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/car/getAll', {
+          headers: auth.getAuthHeader()
+        }).then(function (data) {
+          var cars = [];
+          //var jsonData = JSON.parse(myMessage);
+          for (var i = 0; i < data.body.length; i++) {
+              var car = data.body[i];
+              cars.push(car.id +'. '+car.model +' '+ car.producent);
+          }
+          this.carList = cars;
+        })
+      },
+
+
+    },
+
+    beforeMount() {
+      this.getDriverList();
+      this.getCarList();
     }
 
   }

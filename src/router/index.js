@@ -46,13 +46,13 @@ const myRouter = new Router({
       component: Schedule
     },
     {
-      path:'/schedule/add',
-      name:'ScheduleAdd',
+      path:'/shedule/add',
+      name:'sheduleAdd',
       component: ScheduleAdd
     },
     {
-      path:'/schedule/edit',
-      name:'ScheduleEdit',
+      path:'/schedule/edit/:id',
+      name:'scheduleEdit',
       component: ScheduleEdit
     },
     {

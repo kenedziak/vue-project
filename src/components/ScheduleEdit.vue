@@ -1,9 +1,8 @@
 <template>
-  <div class="driverEdit col-sm-6 col-sm-offset-3">
+  <div class="scheduleEdit col-sm-6 col-sm-offset-3">
     <div class="panel panel-default">
-      <div class="panel-heading">Edit driver</div>
+      <div class="panel-heading">Edit task  </div>
       <div class="panel-body">
-        <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
       </div>
     </div>
   </div>
@@ -16,104 +15,113 @@
   import "vue-form-generator/dist/vfg.css";
 
   export default {
-    name: 'driverEdit',
+    name: 'scheduleEdit',
     components: {
       "vue-form-generator": VueFormGenerator.component
     },
     data() {
       return {
+        driverList :[],
+        carList:[],
         model: {
-          id:this.$route.params.id
+          finishDate:"",
+          carId:"",
+          driverId :"",
+          status:"",
+          description:"",
+          aXcords: "",
+          aYcords: "",
+          bXcords: "",
+          bYcords: "",
+          id: "",
         },
         schema: {
-          fields: [{
-            type: "input",
-            inputType: "text",
-            label: "ID",
-            model: "id",
-            readonly: false,
-            featured: false,
-            disabled: false,
-            required: true
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "Name",
-            model: "name",
-            readonly: false,
-            featured: true,
-            min: 5,
-            max: 40,
-            required: false,
-            disabled: false,
-            placeholder: "User's name",
-            validator: VueFormGenerator.validators.string
-          },{
-            type: "input",
-            inputType: "text",
-            label: "Surname",
-            model: "surname",
-            readonly: false,
-            featured: true,
-            required: false,
-            min: 5,
-            max: 40,
-            disabled: false,
-            placeholder: "User's surname",
-            validator: VueFormGenerator.validators.string
-          },{
-            type: "input",
-            inputType: "text",
-            label: "Username",
-            model: "username",
-            readonly: false,
-            featured: true,
-            required: false,
-            min: 5,
-            max: 40,
-            disabled: false,
-            placeholder: "User's username",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "email",
-            label: "E-mail",
-            required: false,
-            model: "email",
-            placeholder: "User's e-mail address",
-            validator: VueFormGenerator.validators.email
-          },{
+          fields: [
+
+              {
+               type: "input",
+               inputType: "Date",
+               label: "Date to finish",
+               model: "finishDate",
+               required: true,
+               validator: VueFormGenerator.validators.Date
+             },
+            {
+             type: "input",
+             inputType: "number",
+             label: "Point A x cord",
+             model: "aXcords",
+             required: true,
+             validator: VueFormGenerator.validators.number
+           },
+           {
             type: "input",
             inputType: "number",
-            label: "Pesel",
-            model: "pesel",
-            required: false,
+            label: "Point A y cord",
+            model: "aYcords",
+            required: true,
             validator: VueFormGenerator.validators.number
-          }, {
+          },
+          {
+           type: "input",
+           inputType: "number",
+           label: "Point B x cord",
+           model: "bXcords",
+           required: true,
+           validator: VueFormGenerator.validators.number
+         },
+         {
+          type: "input",
+          inputType: "number",
+          label: "Point B y cord",
+          model: "bYcords",
+          required: true,
+          validator: VueFormGenerator.validators.number
+        },
+          {
             type: "input",
-            inputType: "number",
-            label: "Phone number",
-            model: "phoneNumber",
-            validator: VueFormGenerator.validators.number
-          },  {
-            type: "switch",
-            label: "Sex",
-            model: "isMale",
-            multi: true,
+            inputType: "text",
+            label: "description",
+            model: "description",
             readonly: false,
-            featured: false,
+            featured: true,
+            required: true,
             disabled: false,
-            default: true,
-            textOn: "Male",
-            textOff: "Female"
-          }, {
-              type: "submit",
-              buttonText: "Submit",
-              onSubmit: this.submitForm,
+            min: 5,
+            max: 40,
+            placeholder: "Description",
+            validator: VueFormGenerator.validators.string
+          },
+          {
+            type: "select",
+            label: "Assign Driver",
+            model: "driverId",
+            required: false,
+            values: this.driverListData,
+            },
+
+            {
+              type: "select",
+              label: "Assign car",
+              model: "carId",
+              required: false,
+              values: this.carListData,
+              },
+            {
+              type: "select",
+              label: "Status",
+              model: "status",
+              required: true,
+              values: ["Do aktualizacji", "Zakończony"],
+              }
+            , {
+            type: "submit",
+            buttonText: "Submit",
+            onSubmit: this.submitForm,
             disabled() {
-              return this.errors.length>0;
+              return this.errors.length > 0;
             }
-            }
+          }
           ]
         },
 
@@ -164,7 +172,7 @@
     },
     beforeMount() {
       if(this.$route.params.id) {
-        this.$http.get('https://morning-escarpment-49088.herokuapp.com/driver/get/'+this.$route.params.id, {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/schedule/get/'+this.$route.params.id, {
           headers: auth.getAuthHeader()
         }).then(function (data) {
           this.model = data.body;
