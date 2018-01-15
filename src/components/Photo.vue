@@ -3,11 +3,8 @@
     <div class="menu col-sm-6 col-sm-offset-4">
       <h2>Photo list</h2>
       <li v-for="d in photos">
-        {{ d.id }}. {{ d.url }} {{ d.model }}
+        {{ d.id }}. {{ d.photoURL }}
         <button class="btn btn-danger" @click="photoDelete(d.id)">delete</button>
-        <router-link :to="'/photo/edit/'+d.id">
-          <button class="btn btn-warning">edit photo</button>
-        </router-link>
       </li>
       <br/><br/><br/>
       <router-link to="/photo/add">
@@ -30,7 +27,7 @@
     },
     methods: {
       photoDelete(id) {
-        this.$http.delete('https://morning-esphotopment-49088.herokuapp.com/photo/delete', {
+        this.$http.delete('https://morning-escarpment-49088.herokuapp.com/photo/delete', {
             body: {
               "id": id
             },
@@ -48,7 +45,7 @@
 
 
       getPhotoList() {
-        this.$http.get('https://morning-esphotopment-49088.herokuapp.com/photo/getAll', {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/photo/getAll', {
           headers: auth.getAuthHeader()
         }).then(function (data) {
           this.photos = data.body;

@@ -95,7 +95,7 @@
         }
       },
       submitForm: function () {
-        this.$http.put('https://morning-esphotopment-49088.herokuapp.com/photo/create', JSON.stringify(this.model), {
+        this.$http.put('https://morning-escarpment-49088.herokuapp.com/photo/create', JSON.stringify(this.model), {
           headers: auth.getAuthHeader(),
           type:'PUT',
           contentType: 'application/json; charset=utf-8',
