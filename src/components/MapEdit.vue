@@ -23,7 +23,15 @@
     data() {
       return {
         model: {
-          id:this.$route.params.id
+          id: "",
+          status: "przejezdna",
+          startDate: 1516036517000,
+          endDate: 1519000000000,
+          taskId: "",
+          axcords: 13,
+          aycords: 15,
+          bxcords: 1,
+          bycords: 64,
         },
         schema: {
           fields: [{
@@ -31,89 +39,62 @@
             inputType: "text",
             label: "ID",
             model: "id",
-            readonly: false,
+            readonly: true,
             featured: false,
-            disabled: false,
-            required: true
+            disabled: true
           }, {
             type: "input",
             inputType: "text",
-            label: "Name",
-            model: "name",
+            label: "Status",
+            model: "status",
             readonly: false,
             featured: true,
-            min: 5,
-            max: 40,
-            required: false,
+            required: true,
             disabled: false,
-            placeholder: "User's name",
-            validator: VueFormGenerator.validators.string
-          },{
-            type: "input",
-            inputType: "text",
-            label: "Surname",
-            model: "surname",
-            readonly: false,
-            featured: true,
-            required: false,
-            min: 5,
-            max: 40,
-            disabled: false,
-            placeholder: "User's surname",
-            validator: VueFormGenerator.validators.string
-          },{
-            type: "input",
-            inputType: "text",
-            label: "Username",
-            model: "username",
-            readonly: false,
-            featured: true,
-            required: false,
-            min: 5,
-            max: 40,
-            disabled: false,
-            placeholder: "User's username",
+            placeholder: "road's status",
             validator: VueFormGenerator.validators.string
           }, {
             type: "input",
-            inputType: "email",
-            label: "E-mail",
-            required: false,
-            model: "email",
-            placeholder: "User's e-mail address",
-            validator: VueFormGenerator.validators.email
-          },{
-            type: "input",
-            inputType: "number",
-            label: "Pesel",
-            model: "pesel",
-            required: false,
-            validator: VueFormGenerator.validators.number
+            inputType: "date",
+            label: "Start Date",
+            model: "startDate"
           }, {
             type: "input",
-            inputType: "number",
-            label: "Phone number",
-            model: "phoneNumber",
-            validator: VueFormGenerator.validators.number
+            inputType: "date",
+            label: "End Date",
+            model: "endDate"
           },  {
-            type: "switch",
-            label: "Sex",
-            model: "isMale",
-            multi: true,
-            readonly: false,
-            featured: false,
-            disabled: false,
-            default: true,
-            textOn: "Male",
-            textOff: "Female"
+            type: "input",
+            inputType: "number",
+            label: "coordinates from - X",
+            model: "axcords",
+            validator: VueFormGenerator.validators.number
+          },   {
+            type: "input",
+            inputType: "number",
+            label: "coordinates from - Y",
+            model: "aycords",
+            validator: VueFormGenerator.validators.number
+          },   { 
+            type: "input",
+            inputType: "number",
+            label: "coordinates to - X",
+            model: "bxcords",
+            validator: VueFormGenerator.validators.number
+          },   {
+            type: "input",
+            inputType: "number",
+            label: "coordinates to - Y",
+            model: "bycords",
+            validator: VueFormGenerator.validators.number
           }, {
-              type: "submit",
-              buttonText: "Submit",
-              onSubmit: this.submitForm,
+            type: "submit",
+            buttonText: "Submit",
+            onSubmit: this.submitForm,
             disabled() {
-              return this.errors.length>0;
+              return this.errors.length > 0;
             }
-            }
+          }
           ]
         },
 

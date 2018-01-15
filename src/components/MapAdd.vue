@@ -24,13 +24,14 @@
       return {
         model: {
           id: "",
-          name: "imiea",
-          surname: "nazwisko",
-          username: "asdas ",
-          email: "asd@gmail.com",
-          pesel: "12312312312",
-          phonenumber: "123123123",
-          isMale: true
+          status: "przejezdna",
+          startDate: 1516036517000,
+          endDate: 1519000000000,
+          taskId: "",
+          aXcords: 13,
+          aYcords: 15,
+          bXcords: 1,
+          bYcords: 64,
         },
         schema: {
           fields: [{
@@ -44,74 +45,48 @@
           }, {
             type: "input",
             inputType: "text",
-            label: "Name",
-            model: "name",
+            label: "Status",
+            model: "status",
             readonly: false,
             featured: true,
             required: true,
             disabled: false,
-            min: 5,
-            max: 40,
-            placeholder: "User's name",
+            placeholder: "road's status",
             validator: VueFormGenerator.validators.string
           }, {
             type: "input",
-            inputType: "text",
-            label: "Surname",
-            model: "surname",
-            readonly: false,
-            featured: true,
-            min: 5,
-            max: 40,
-            required: true,
-            disabled: false,
-            placeholder: "User's surname",
-            validator: VueFormGenerator.validators.string
+            inputType: "date",
+            label: "Start Date",
+            model: "startDate"
           }, {
             type: "input",
-            inputType: "text",
-            label: "Username",
-            model: "username",
-            readonly: false,
-            featured: true,
-            required: true,
-            disabled: false,
-            min: 5,
-            max: 40,
-            placeholder: "User's username",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "email",
-            label: "E-mail",
-            required: true,
-            model: "email",
-            placeholder: "User's e-mail address",
-            validator: VueFormGenerator.validators.email
-          }, {
+            inputType: "date",
+            label: "End Date",
+            model: "endDate"
+          },  {
             type: "input",
             inputType: "number",
-            label: "Pesel",
-            model: "pesel",
-            required: true,
+            label: "coordinates from - X",
+            model: "aXcords",
             validator: VueFormGenerator.validators.number
-          }, {
+          },   {
             type: "input",
             inputType: "number",
-            label: "Phone number",
-            model: "phoneNumber",
+            label: "coordinates from - Y",
+            model: "aYcords",
             validator: VueFormGenerator.validators.number
-          }, {
-            type: "switch",
-            label: "Sex",
-            model: "isMale",
-            multi: true,
-            readonly: false,
-            featured: false,
-            disabled: false,
-            default: true,
-            textOn: "Male",
-            textOff: "Female"
+          },   {
+            type: "input",
+            inputType: "number",
+            label: "coordinates to - X",
+            model: "bXcords",
+            validator: VueFormGenerator.validators.number
+          },   {
+            type: "input",
+            inputType: "number",
+            label: "coordinates to - Y",
+            model: "bYcords",
+            validator: VueFormGenerator.validators.number
           }, {
             type: "submit",
             buttonText: "Submit",

@@ -66,7 +66,7 @@ const myRouter = new Router({
       component: MapAdd
     },
     {
-      path:'/map/edit',
+      path:'/map/edit/:id',
       name:'MapEdit',
       component: MapEdit
     },
