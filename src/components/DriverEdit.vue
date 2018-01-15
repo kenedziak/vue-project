@@ -26,16 +26,8 @@
           id:this.$route.params.id
         },
         schema: {
-          fields: [{
-            type: "input",
-            inputType: "text",
-            label: "ID",
-            model: "id",
-            readonly: false,
-            featured: false,
-            disabled: false,
-            required: true
-          }, {
+          fields: [
+            {
             type: "input",
             inputType: "text",
             label: "Name",
