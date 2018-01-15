@@ -16,7 +16,6 @@ var myApp = new Vue({
   methods: {
     myLoad() {
       auth.checkAuth();
-
     }
   },
 

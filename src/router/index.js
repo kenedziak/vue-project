@@ -7,21 +7,28 @@ import Driver from '@/components/Driver'
 import DriverAdd from '@/components/DriverAdd'
 import DriverEdit from '@/components/DriverEdit'
 import Schedule from '@/components/Schedule'
-import Maps from '@/components/Maps'
+import ScheduleAdd from '@/components/ScheduleAdd'
+import ScheduleEdit from '@/components/ScheduleEdit'
+import Map from '@/components/Map'
+import MapAdd from '@/components/MapAdd'
+import MapEdit from '@/components/MapEdit'
+import Car from '@/components/Car'
+import CarAdd from '@/components/CarAdd'
+import CarEdit from '@/components/CarEdit'
 
 import VueResource from 'vue-resource'
 Vue.use(VueResource)
 
 Vue.use(Router)
 
-export default  new Router({
-
+const myRouter = new Router({
 
   routes: [
     {
       path: '/Home',
       name: 'Home',
-      component: Home
+      component: Home,
+      meta: { auth: true }
     },
     {
       path:'/login',
@@ -34,14 +41,34 @@ export default  new Router({
       component: Logged
     },
     {
-      path:'/wchedule',
+      path:'/schedule',
       name:'Schedule',
       component: Schedule
     },
     {
-      path:'/maps',
-      name:'Maps',
-      component: Maps
+      path:'/schedule/add',
+      name:'ScheduleAdd',
+      component: ScheduleAdd
+    },
+    {
+      path:'/schedule/edit',
+      name:'ScheduleEdit',
+      component: ScheduleEdit
+    },
+    {
+      path:'/map',
+      name:'Map',
+      component: Map
+    },
+    {
+      path:'/map/add',
+      name:'MapAdd',
+      component: MapAdd
+    },
+    {
+      path:'/map/edit',
+      name:'MapEdit',
+      component: MapEdit
     },
     {
       path:'/driver',
@@ -58,11 +85,34 @@ export default  new Router({
       name:'DriverEdit',
       component: DriverEdit
     },
+    {
+      path:'/car',
+      name:'Car',
+      component: Car
+    },
+    {
+      path:'/car/add',
+      name:'CarAdd',
+      component: CarAdd
+    },
+    {
+      path:'/car/edit/:id',
+      name:'CarEdit',
+      component: CarEdit
+    },
 
 
 
   ]
 
+});
+myRouter.beforeEach((to, from, next) => {
+  var jwt = localStorage.getItem('id_token');
+  if(!jwt && to.path != "/login") {
+    next("/login");
+  } else {
+    next();
+  }
+});
 
-
-})
+export default myRouter;

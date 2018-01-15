@@ -7,11 +7,14 @@
      <router-link to="/driver">
        <button class="btn btn-primary">driver</button>
      </router-link>
-     <router-link to="/shedule">
+     <router-link to="/schedule">
        <button class="btn btn-primary">shedule</button>
      </router-link>
-     <router-link to="/maps">
+     <router-link to="/map">
        <button class="btn btn-primary">maps</button>
+     </router-link>
+     <router-link to="/car">
+       <button class="btn btn-primary">cars</button>
      </router-link>
    </div>
  </div>

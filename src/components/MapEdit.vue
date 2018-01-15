@@ -1,7 +1,7 @@
 <template>
-  <div class="driverEdit col-sm-6 col-sm-offset-3">
+  <div class="mapEdit col-sm-6 col-sm-offset-3">
     <div class="panel panel-default">
-      <div class="panel-heading">Edit driver</div>
+      <div class="panel-heading">Edit map</div>
       <div class="panel-body">
         <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
       </div>
@@ -16,7 +16,7 @@
   import "vue-form-generator/dist/vfg.css";
 
   export default {
-    name: 'driverEdit',
+    name: 'mapEdit',
     components: {
       "vue-form-generator": VueFormGenerator.component
     },
@@ -148,7 +148,7 @@
         }
       },
       submitForm:function(){
-        this.$http.post('https://morning-escarpment-49088.herokuapp.com/driver/update', JSON.stringify(this.model),{
+        this.$http.post('https://morning-escarpment-49088.herokuapp.com/map/update', JSON.stringify(this.model),{
           headers: auth.getAuthHeader(),
           type:'POST',
           contentType: 'application/json; charset=utf-8',
@@ -164,7 +164,7 @@
     },
     beforeMount() {
       if(this.$route.params.id) {
-        this.$http.get('https://morning-escarpment-49088.herokuapp.com/driver/get/'+this.$route.params.id, {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/map/get/'+this.$route.params.id, {
           headers: auth.getAuthHeader()
         }).then(function (data) {
           this.model = data.body;

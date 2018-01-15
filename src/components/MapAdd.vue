@@ -1,7 +1,7 @@
 <template>
-  <div class="driverEdit col-sm-6 col-sm-offset-3">
+  <div class="mapAdd col-sm-6 col-sm-offset-3">
     <div class="panel panel-default">
-      <div class="panel-heading">Edit driver</div>
+      <div class="panel-heading">Add map</div>
       <div class="panel-body">
         <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
       </div>
@@ -16,14 +16,21 @@
   import "vue-form-generator/dist/vfg.css";
 
   export default {
-    name: 'driverEdit',
+    name: 'mapAdd',
     components: {
       "vue-form-generator": VueFormGenerator.component
     },
     data() {
       return {
         model: {
-          id:this.$route.params.id
+          id: "",
+          name: "imiea",
+          surname: "nazwisko",
+          username: "asdas ",
+          email: "asd@gmail.com",
+          pesel: "12312312312",
+          phonenumber: "123123123",
+          isMale: true
         },
         schema: {
           fields: [{
@@ -31,10 +38,9 @@
             inputType: "text",
             label: "ID",
             model: "id",
-            readonly: false,
+            readonly: true,
             featured: false,
-            disabled: false,
-            required: true
+            disabled: true
           }, {
             type: "input",
             inputType: "text",
@@ -42,52 +48,52 @@
             model: "name",
             readonly: false,
             featured: true,
+            required: true,
+            disabled: false,
             min: 5,
             max: 40,
-            required: false,
-            disabled: false,
             placeholder: "User's name",
             validator: VueFormGenerator.validators.string
-          },{
+          }, {
             type: "input",
             inputType: "text",
             label: "Surname",
             model: "surname",
             readonly: false,
             featured: true,
-            required: false,
             min: 5,
             max: 40,
+            required: true,
             disabled: false,
             placeholder: "User's surname",
             validator: VueFormGenerator.validators.string
-          },{
+          }, {
             type: "input",
             inputType: "text",
             label: "Username",
             model: "username",
             readonly: false,
             featured: true,
-            required: false,
+            required: true,
+            disabled: false,
             min: 5,
             max: 40,
-            disabled: false,
             placeholder: "User's username",
             validator: VueFormGenerator.validators.string
           }, {
             type: "input",
             inputType: "email",
             label: "E-mail",
-            required: false,
+            required: true,
             model: "email",
             placeholder: "User's e-mail address",
             validator: VueFormGenerator.validators.email
-          },{
+          }, {
             type: "input",
             inputType: "number",
             label: "Pesel",
             model: "pesel",
-            required: false,
+            required: true,
             validator: VueFormGenerator.validators.number
           }, {
             type: "input",
@@ -95,7 +101,7 @@
             label: "Phone number",
             model: "phoneNumber",
             validator: VueFormGenerator.validators.number
-          },  {
+          }, {
             type: "switch",
             label: "Sex",
             model: "isMale",
@@ -107,13 +113,13 @@
             textOn: "Male",
             textOff: "Female"
           }, {
-              type: "submit",
-              buttonText: "Submit",
-              onSubmit: this.submitForm,
+            type: "submit",
+            buttonText: "Submit",
+            onSubmit: this.submitForm,
             disabled() {
-              return this.errors.length>0;
+              return this.errors.length > 0;
             }
-            }
+          }
           ]
         },
 
@@ -147,32 +153,19 @@
           });
         }
       },
-      submitForm:function(){
-        this.$http.post('https://morning-escarpment-49088.herokuapp.com/driver/update', JSON.stringify(this.model),{
+      submitForm: function () {
+        this.$http.put('https://morning-escarpment-49088.herokuapp.com/map/create', JSON.stringify(this.model), {
           headers: auth.getAuthHeader(),
-          type:'POST',
+          type:'PUT',
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
 
-        }).then (function (data) {
-          return false;
-        }),function(data){
+        }).then(function () {
+        }), function (data) {
+          console.log(data);
         };
-        console.log(JSON.stringify(this.model));
         router.push("/Home");
       }
-    },
-    beforeMount() {
-      if(this.$route.params.id) {
-        this.$http.get('https://morning-escarpment-49088.herokuapp.com/driver/get/'+this.$route.params.id, {
-          headers: auth.getAuthHeader()
-        }).then(function (data) {
-          this.model = data.body;
-          console.log(data.body);
-        })
-
-      }
-
     }
 
   }

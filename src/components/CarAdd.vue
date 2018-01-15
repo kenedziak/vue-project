@@ -1,7 +1,7 @@
 <template>
-  <div class="driverEdit col-sm-6 col-sm-offset-3">
+  <div class="carAdd col-sm-6 col-sm-offset-3">
     <div class="panel panel-default">
-      <div class="panel-heading">Edit driver</div>
+      <div class="panel-heading">Add car</div>
       <div class="panel-body">
         <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
       </div>
@@ -16,14 +16,21 @@
   import "vue-form-generator/dist/vfg.css";
 
   export default {
-    name: 'driverEdit',
+    name: 'carAdd',
     components: {
       "vue-form-generator": VueFormGenerator.component
     },
     data() {
       return {
         model: {
-          id:this.$route.params.id
+          id: "",
+          description: "opisasd",
+          isAvaible: true,
+          condition: "dobry",
+          model: "6a",
+          producent: "Skoda",
+          xcords: 32,
+          ycords: 12
         },
         schema: {
           fields: [{
@@ -31,89 +38,72 @@
             inputType: "text",
             label: "ID",
             model: "id",
-            readonly: false,
+            readonly: true,
             featured: false,
-            disabled: false,
-            required: true
+            disabled: true
           }, {
             type: "input",
             inputType: "text",
-            label: "Name",
-            model: "name",
+            label: "Description",
+            model: "description",
             readonly: false,
             featured: true,
-            min: 5,
-            max: 40,
-            required: false,
+            required: true,
             disabled: false,
-            placeholder: "User's name",
-            validator: VueFormGenerator.validators.string
-          },{
-            type: "input",
-            inputType: "text",
-            label: "Surname",
-            model: "surname",
-            readonly: false,
-            featured: true,
-            required: false,
-            min: 5,
-            max: 40,
-            disabled: false,
-            placeholder: "User's surname",
-            validator: VueFormGenerator.validators.string
-          },{
-            type: "input",
-            inputType: "text",
-            label: "Username",
-            model: "username",
-            readonly: false,
-            featured: true,
-            required: false,
-            min: 5,
-            max: 40,
-            disabled: false,
-            placeholder: "User's username",
+            placeholder: "Description of the car",
             validator: VueFormGenerator.validators.string
           }, {
-            type: "input",
-            inputType: "email",
-            label: "E-mail",
-            required: false,
-            model: "email",
-            placeholder: "User's e-mail address",
-            validator: VueFormGenerator.validators.email
-          },{
-            type: "input",
-            inputType: "number",
-            label: "Pesel",
-            model: "pesel",
-            required: false,
-            validator: VueFormGenerator.validators.number
-          }, {
-            type: "input",
-            inputType: "number",
-            label: "Phone number",
-            model: "phoneNumber",
-            validator: VueFormGenerator.validators.number
-          },  {
             type: "switch",
-            label: "Sex",
-            model: "isMale",
+            label: "is currently avaible?",
+            model: "isAvaible",
             multi: true,
             readonly: false,
             featured: false,
             disabled: false,
             default: true,
-            textOn: "Male",
-            textOff: "Female"
+            textOn: "yes",
+            textOff: "no"
           }, {
-              type: "submit",
-              buttonText: "Submit",
-              onSubmit: this.submitForm,
+            type: "input",
+            inputType: "text",
+            label: "condition",
+            model: "condition",
+            readonly: false,
+            featured: true,
+            required: true,
+            disabled: false,
+            placeholder: "What is the car's condition?",
+            validator: VueFormGenerator.validators.string
+          },  {
+            type: "input",
+            inputType: "text",
+            label: "model",
+            model: "model",
+            readonly: false,
+            featured: true,
+            required: true,
+            disabled: false,
+            placeholder: "What is the car's model?",
+            validator: VueFormGenerator.validators.string
+          },  {
+            type: "input",
+            inputType: "text",
+            label: "producent",
+            model: "producent",
+            readonly: false,
+            featured: true,
+            required: true,
+            disabled: false,
+            placeholder: "What is the car's producent?",
+            validator: VueFormGenerator.validators.string
+          }, {
+            type: "submit",
+            buttonText: "Submit",
+            onSubmit: this.submitForm,
             disabled() {
-              return this.errors.length>0;
+              return this.errors.length > 0;
             }
-            }
+          }
           ]
         },
 
@@ -147,32 +137,19 @@
           });
         }
       },
-      submitForm:function(){
-        this.$http.post('https://morning-escarpment-49088.herokuapp.com/driver/update', JSON.stringify(this.model),{
+      submitForm: function () {
+        this.$http.put('https://morning-escarpment-49088.herokuapp.com/car/create', JSON.stringify(this.model), {
           headers: auth.getAuthHeader(),
-          type:'POST',
+          type:'PUT',
           contentType: 'application/json; charset=utf-8',
           dataType: 'json',
 
-        }).then (function (data) {
-          return false;
-        }),function(data){
+        }).then(function () {
+        }), function (data) {
+          console.log(data);
         };
-        console.log(JSON.stringify(this.model));
         router.push("/Home");
       }
-    },
-    beforeMount() {
-      if(this.$route.params.id) {
-        this.$http.get('https://morning-escarpment-49088.herokuapp.com/driver/get/'+this.$route.params.id, {
-          headers: auth.getAuthHeader()
-        }).then(function (data) {
-          this.model = data.body;
-          console.log(data.body);
-        })
-
-      }
-
     }
 
   }

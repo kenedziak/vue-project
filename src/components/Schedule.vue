@@ -1,50 +1,64 @@
 <template>
-  <div class = "home">
-   <div class="menu col-sm-4 col-sm-offset-4">
-     <h2>Main menu</h2>
-     <p>Please choose the desired function</p>
+  <div class="driver">
+    <div class="menu col-sm-6 col-sm-offset-4">
+      <h2>Driver list</h2>
+      <li v-for="d in drivers">
+        {{ d.id }}. {{ d.name }} {{ d.surname }}
+        <button class="btn btn-danger" @click="driverDelete(d.id)">delete</button>
+        <router-link :to="'/driver/edit/'+d.id">
+          <button class="btn btn-warning">edit driver</button>
+        </router-link>
+      </li>
+      <br/><br/><br/>
+      <router-link to="/driver/add">
+        <button class="btn btn-primary">add driver</button>
+      </router-link>
+    </div>
+  </div>
+</template>
 
-     <router-link to="/driver">
-       <button class="btn btn-primary">home</button>
-     </router-link>
-     <router-link to="/shedule">
-       <button class="btn btn-primary">shedule</button>
-     </router-link>
-     <router-link to="/maps">
-       <button class="btn btn-primary">maps</button>
-     </router-link>
-   </div>
- </div>
- </template>
+<script>
+  import auth from '../auth/'
 
- <script>
- import auth from '../auth'
+  export default {
+    name: 'driver',
 
- export default {
-   name: 'home',
-   data() {
-     return {
-       credentials: {
-         username: '',
-         password: ''
-       },
-       error: ''
-     }
-   },
+    data() {
+      return {
+        drivers: []
+      }
+    },
+    methods: {
+      driverDelete(id) {
+        this.$http.delete('https://morning-escarpment-49088.herokuapp.com/driver/delete', {
+            body: {
+              "id": id
+            },
+            headers: auth.getAuthHeader()
+          }
+        )
 
-   methods: {
 
-     submit() {
+          .then(function (data) {
 
-       var credentials = {
-         username: this.credentials.username,
-         password: this.credentials.password
-       }
+            this.getDriverList();
 
-       auth.login(this, credentials, 'secretquote')
+          })
+      },
 
-     }
-   }
 
- }
- </script>
+      getDriverList() {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/driver/getAll', {
+          headers: auth.getAuthHeader()
+        }).then(function (data) {
+          this.drivers = data.body;
+        })
+      }
+
+    },
+    beforeMount() {
+      this.getDriverList();
+    }
+
+  }
+</script>
