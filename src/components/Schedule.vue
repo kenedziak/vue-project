@@ -22,7 +22,7 @@
              <td> {{ t.status }}</td>
 
              <td>
-               <button class="btn btn-danger" @click="taskDelete(t.id)">delete</button><router-link :to="'/shedule/edit/'+t.id"><button class="btn btn-warning">edit task</button></router-link>
+               <button class="btn btn-danger" @click="taskDelete(t.id)">delete</button><router-link :to="'/schedule/edit/'+t.id" ><button class="btn btn-warning">edit task</button></router-link>
              </td>
            </tr>
          </tbody>
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import auth from '../auth/'
+  import auth from '../auth'
 
   export default {
     name: 'shedule',

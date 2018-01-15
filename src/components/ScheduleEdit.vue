@@ -3,6 +3,8 @@
     <div class="panel panel-default">
       <div class="panel-heading">Edit task  </div>
       <div class="panel-body">
+        <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
+
       </div>
     </div>
   </div>
@@ -21,7 +23,7 @@
     },
     data() {
       return {
-        driverList :[],
+        driverList: [],
         carList:[],
         model: {
           finishDate:"",
@@ -33,17 +35,17 @@
           aYcords: "",
           bXcords: "",
           bYcords: "",
-          id: "",
+          id: this.$route.params.id,
         },
         schema: {
           fields: [
-
               {
                type: "input",
                inputType: "Date",
                label: "Date to finish",
                model: "finishDate",
                required: true,
+               value: this.getDate,
                validator: VueFormGenerator.validators.Date
              },
             {
@@ -126,14 +128,24 @@
         },
 
         formOptions: {
-          validateAfterLoad: true,
+          validateAfterLoad: false,
           validateAfterChanged: true,
-          validateBeforeSubmit: true
+          validateBeforeSubmit: false
         }
       };
     },
 
     methods: {
+      driverListData(){
+        return this.driverList;
+
+      },
+      carListData(){
+        return this.carList;
+      },
+      getDate: function () {
+        return this.finishDate;
+      },
       prettyJSON: function (json) {
         if (json) {
           json = JSON.stringify(json, undefined, 4);
@@ -156,7 +168,25 @@
         }
       },
       submitForm:function(){
-        this.$http.post('https://morning-escarpment-49088.herokuapp.com/driver/update', JSON.stringify(this.model),{
+        var driverId = this.model.driverId;
+        var carId = this.model.carId;
+        carId = carId[0];
+        driverId  = driverId[0];
+
+        this.$http.post('https://morning-escarpment-49088.herokuapp.com/task/update',
+        {
+          id: this.model.id,
+          endDate: this.model.finishDate,
+          driverId : driverId,
+          carId: carId,
+          status: this.model.status,
+          description: this.model.description,
+          aXcords: this.model.aXcords,
+          aYcords: this.model.aXYcords,
+          bXcords: this.model.bXcords,
+          bYcords: this.model.bYcords,
+
+        },{
           headers: auth.getAuthHeader(),
           type:'POST',
           contentType: 'application/json; charset=utf-8',
@@ -168,16 +198,53 @@
         };
         console.log(JSON.stringify(this.model));
         router.push("/Home");
-      }
-    },
-    beforeMount() {
-      if(this.$route.params.id) {
-        this.$http.get('https://morning-escarpment-49088.herokuapp.com/schedule/get/'+this.$route.params.id, {
+      },
+      getDriverList() {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/driver/getAll', {
           headers: auth.getAuthHeader()
         }).then(function (data) {
-          this.model = data.body;
-          console.log(data.body);
+          var driverSurnames = [];
+          var driverIds = [];
+          //var jsonData = JSON.parse(myMessage);
+          for (var i = 0; i < data.body.length; i++) {
+              var driver = data.body[i];
+              driverSurnames.push(driver.id +'. '+driver.surname);
+          }
+          this.driverList = driverSurnames;
         })
+      },
+      getCarList() {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/car/getAll', {
+          headers: auth.getAuthHeader()
+        }).then(function (data) {
+          var cars = [];
+          //var jsonData = JSON.parse(myMessage);
+          for (var i = 0; i < data.body.length; i++) {
+              var car = data.body[i];
+              cars.push(car.id +'. '+car.model +' '+ car.producent);
+          }
+          this.carList = cars;
+        })
+      },
+
+    },
+    beforeMount() {
+      this.getDriverList();
+      this.getCarList();
+      if(this.$route.params.id) {
+        this.$http.get('https://morning-escarpment-49088.herokuapp.com/task/get/'+this.$route.params.id, {
+          headers: auth.getAuthHeader()
+        }).then(function (data) {
+
+          this.model.finishDate = data.body['endDate']
+          this.model.status = data.body['status']
+          this.model.description = data.body['description']
+          this.model.aXcords = data.body['axcords']
+          this.model.aYcords = data.body['aycords']
+          this.model.bXcords = data.body['bxcords']
+          this.model.bYcords = data.body['bycords']
+        })
+
 
       }
 
