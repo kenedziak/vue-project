@@ -3,7 +3,7 @@ Map.vue<template>
     <div class="menu col-sm-6 col-sm-offset-4">
       <h2>Map list</h2>
       <li v-for="d in maps">
-        {{ d.id }}. {{ d.startDate }} {{ d.endDate }}
+        {{ d.id }}. ||{{ new Date(d.startDate).toDateString() }} || {{ new Date(d.endDate).toDateString() }}
         <button class="btn btn-danger" @click="mapDelete(d.id)">delete</button>
         <router-link :to="'/map/edit/'+d.id">
           <button class="btn btn-warning">edit map</button>
