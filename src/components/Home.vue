@@ -16,6 +16,9 @@
      <router-link to="/car">
        <button class="btn btn-primary">cars</button>
      </router-link>
+     <router-link to="/photo">
+       <button class="btn btn-primary">photo</button>
+     </router-link>
    </div>
  </div>
  </template>
