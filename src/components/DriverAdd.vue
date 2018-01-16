@@ -28,8 +28,8 @@
           surname: "nazwisko",
           username: "asdas ",
           email: "asd@gmail.com",
-          pesel: "12312312312",
-          phonenumber: "123123123",
+          pesel: 12312312312,
+          phonenumber: 123123123,
           isMale: true
         },
         schema: {

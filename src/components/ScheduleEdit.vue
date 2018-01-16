@@ -30,11 +30,11 @@
           carId:"",
           driverId :"",
           status:"",
-          description:"",
-          aXcords: "",
-          aYcords: "",
-          bXcords: "",
-          bYcords: "",
+          description:"     ",
+          aXcords: 1,
+          aYcords: 1,
+          bXcords: 1,
+          bYcords: 1,
           id: this.$route.params.id,
         },
         schema: {
@@ -128,9 +128,9 @@
         },
 
         formOptions: {
-          validateAfterLoad: false,
+          validateAfterLoad: true,
           validateAfterChanged: true,
-          validateBeforeSubmit: false
+          validateBeforeSubmit: true
         }
       };
     },
@@ -182,7 +182,7 @@
           status: this.model.status,
           description: this.model.description,
           aXcords: this.model.aXcords,
-          aYcords: this.model.aXYcords,
+          aYcords: this.model.aYcords,
           bXcords: this.model.bXcords,
           bYcords: this.model.bYcords,
 
@@ -235,14 +235,13 @@
         this.$http.get('https://morning-escarpment-49088.herokuapp.com/task/get/'+this.$route.params.id, {
           headers: auth.getAuthHeader()
         }).then(function (data) {
-
-          this.model.finishDate = data.body['endDate']
-          this.model.status = data.body['status']
-          this.model.description = data.body['description']
-          this.model.aXcords = data.body['axcords']
-          this.model.aYcords = data.body['aycords']
-          this.model.bXcords = data.body['bxcords']
-          this.model.bYcords = data.body['bycords']
+          this.model.finishDate = data.body['endDate'];
+          this.model.status = data.body['status'];
+          this.model.description = data.body['description'];
+          this.model.aXcords = parseInt(data.body['axcords']);
+          this.model.aYcords = parseInt(data.body['aycords']);
+          this.model.bXcords = parseInt(data.body['bxcords']);
+          this.model.bYcords = parseInt(data.body['bycords']);
         })
 
 

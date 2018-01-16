@@ -9,6 +9,9 @@ import DriverEdit from '@/components/DriverEdit'
 import Schedule from '@/components/Schedule'
 import ScheduleAdd from '@/components/ScheduleAdd'
 import ScheduleEdit from '@/components/ScheduleEdit'
+import Photo from '@/components/Photo'
+import PhotoAdd from '@/components/PhotoAdd'
+
 import Map from '@/components/Map'
 import MapAdd from '@/components/MapAdd'
 import MapEdit from '@/components/MapEdit'
@@ -69,6 +72,16 @@ const myRouter = new Router({
       path:'/map/edit/:id',
       name:'MapEdit',
       component: MapEdit
+    },
+    {
+      path:'/photo',
+      name:'Photo',
+      component: Photo
+    },
+    {
+      path:'/photo/add',
+      name:'PhotoAdd',
+      component: PhotoAdd
     },
     {
       path:'/driver',

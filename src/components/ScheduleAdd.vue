@@ -176,7 +176,7 @@
           status: this.model.status,
           description: this.model.description,
           aXcords: this.model.aXcords,
-          aYcords: this.model.aXYcords,
+          aYcords: this.model.aYcords,
           bXcords: this.model.bXcords,
           bYcords: this.model.bYcords,
 
